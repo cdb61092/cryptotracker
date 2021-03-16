@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
-import CryptoContext from "./CryptoContext";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { addCrypto } from "../features/crypto/cryptoSlice";
 
 const SearchBox = styled.input`
   width: 300px;
@@ -39,7 +40,7 @@ const Wrapper = styled.div`
   right: 100px;
   z-index: 2;
   overflow-y: hidden;
-  width: 300px;
+  width: 302px;
 `;
 
 const ResultsContainer = styled.div`
@@ -47,16 +48,34 @@ const ResultsContainer = styled.div`
   max-height: 300px;
   margin-top: 5px;
   border: 1px solid gray;
+  border-radius: 4px;
   background-color: white;
   overflow-y: visible;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #555;
+  }
 `;
 function SearchBar() {
   const [input, setInput] = useState("");
   const [isFocused, setFocus] = useState(false);
   const [results, setResults] = useState([]);
   const [cryptoList, setCryptoList] = useState([]);
-  const [setCards] = useContext(CryptoContext);
   let inputTimeout = undefined;
+
+  const dispatch = useDispatch();
 
   function clearInput() {
     setInput("");
@@ -74,27 +93,33 @@ function SearchBar() {
       });
   }, []);
 
+  useEffect(() => {
+    setResults(
+      cryptoList.filter((crypto) => {
+        return crypto.name.toLowerCase().includes(input.toLowerCase());
+      })
+    );
+  }, [cryptoList, input]);
+
   function onInputChange(event) {
     setFocus(true);
     const value = event.target.value;
     setInput(value);
-    if (inputTimeout) {
-      clearTimeout(inputTimeout);
-      inputTimeout = undefined;
-    }
-    inputTimeout = setTimeout(() => {
-      setResults(
-        cryptoList.filter((crypto) => {
-          return crypto.name.toLowerCase().includes(input.toLowerCase());
-        })
-      );
-    }, 500);
+    // if (inputTimeout) {
+    //   clearTimeout(inputTimeout);
+    //   inputTimeout = undefined;
+    // }
+    // inputTimeout = setTimeout(() => {
+    // setResults(
+    //   cryptoList.filter((crypto) => {
+    //     return crypto.name.toLowerCase().includes(input.toLowerCase());
+    //   })
+    // );
+    // }, 500);
   }
 
   function handleClick(e) {
-    setCards((prevCards) => {
-      return [...prevCards, e.target.value];
-    });
+    dispatch(addCrypto(e.target.value));
     setFocus(false);
   }
 

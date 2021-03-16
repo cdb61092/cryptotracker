@@ -3,6 +3,9 @@ import axios from "axios";
 import PriceData from "./PriceData";
 import MarketData from "./MarketData";
 import styled from "styled-components";
+import { formatName, formatLongName } from "../Util/formatters";
+import { useDispatch } from "react-redux";
+import { removeCrypto } from "../features/crypto/cryptoSlice";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -13,11 +16,9 @@ const Wrapper = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   position: relative;
-  pointer-events: none;
   background-color: white;
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    background-color: red;
   }
 `;
 
@@ -32,20 +33,30 @@ const CryptoName = styled.h1`
   position: absolute;
   left: 70px;
   top: 10px;
+  font-weight: 600;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  right: 5px;
+  top: 3px;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  font-size: 1em;
+  color: gray;
+  outline: none;
 `;
 
 function CryptoCard(props) {
   const [crypto, setCrypto] = useState(null);
   const [loading, setLoading] = useState(true);
-  const cryptoID = props.cryptoID;
-
-  function formatName() {
-    return `${crypto.name} (${crypto.symbol.toUpperCase()})`;
-  }
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.setTimeout(function () {
-      const URL = `https://api.coingecko.com/api/v3/coins/${cryptoID}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`;
+      const URL = `https://api.coingecko.com/api/v3/coins/${props.cryptoID}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`;
       axios
         .get(URL)
         .then((res) => {
@@ -56,16 +67,23 @@ function CryptoCard(props) {
           console.log(err);
         });
     }, 10000);
-  }, [crypto, cryptoID]);
+  }, [crypto, props.cryptoID]);
 
   return (
     <Wrapper>
+      <CloseButton onClick={() => dispatch(removeCrypto(props.cryptoID))}>
+        &#215;
+      </CloseButton>
       {loading ? (
         <p>loading...</p>
       ) : (
         <div>
           <CryptoIcon alt="crypto icon" src={crypto.image.small}></CryptoIcon>
-          <CryptoName>{formatName()}</CryptoName>
+          <CryptoName>
+            {formatName(crypto.name, crypto.symbol).length < 14
+              ? formatName(crypto.name, crypto.symbol)
+              : formatLongName(crypto.name, crypto.symbol)}
+          </CryptoName>
           <PriceData data={crypto.market_data}></PriceData>
           <MarketData data={crypto.market_data}></MarketData>
         </div>

@@ -1,9 +1,10 @@
-import { useState } from "react";
 import CryptoCard from "./Components/CryptoCard";
 import Header from "./Components/Header";
-import CryptoContext from "./Components/CryptoContext";
 import "./App.css";
 import styled from "styled-components";
+
+import { useSelector } from "react-redux";
+import { selectCryptos } from "./features/crypto/cryptoSlice";
 
 const CardContainer = styled.div`
   display: flex;
@@ -13,16 +14,15 @@ const CardContainer = styled.div`
 `;
 
 function App() {
-  const [cards, setCards] = useState(["lgcy-network", "bitcoin"]);
+  const cryptos = useSelector(selectCryptos);
 
   return (
     <div>
-      <CryptoContext.Provider value={[cards, setCards]}>
-        <Header />
-      </CryptoContext.Provider>
+      <Header />
+
       <CardContainer>
-        {cards.map((item) => {
-          return <CryptoCard cryptoID={item} key={item} />;
+        {cryptos.map((crypto) => {
+          return <CryptoCard cryptoID={crypto} key={crypto} />;
         })}
       </CardContainer>
     </div>

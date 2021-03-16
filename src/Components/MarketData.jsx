@@ -1,29 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-
-const smallCurrency = new Intl.NumberFormat("en-us", {
-  style: "currency",
-  currency: "usd",
-  maximumFractionDigits: 2,
-});
-const largeCurrency = new Intl.NumberFormat("en-us", {
-  style: "currency",
-  currency: "usd",
-  maximumFractionDigits: 0,
-});
-const number = new Intl.NumberFormat("en-us", {
-  maximumFractionDigits: 0,
-});
-
-function formatDate(date) {
-  const newDate = new Date(date.substr(0, date.indexOf("T")));
-  const formattedDate = newDate.toLocaleDateString("default", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-  return formattedDate;
-}
+import {
+  formatDate,
+  smallCurrency,
+  largeCurrency,
+  number,
+} from "../Util/formatters";
 
 const Wrapper = styled.div`
   display: flex;
@@ -104,6 +86,7 @@ function MarketData(props) {
               {props.data.atl_change_percentage.usd.toFixed(2)}%
             </span>
           </p>
+          <p>{formatDate(props.data.atl_date.usd)}</p>
         </div>
       </DataColumn>
     </Wrapper>
