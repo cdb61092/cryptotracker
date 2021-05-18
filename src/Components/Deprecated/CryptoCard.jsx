@@ -3,9 +3,11 @@ import axios from "axios";
 import PriceData from "./PriceData";
 import MarketData from "./MarketData";
 import styled from "styled-components";
-import { formatName, formatLongName } from "../Util/formatters";
+import { formatName, formatLongName } from "../../Util/formatters";
 import { useDispatch } from "react-redux";
-import { removeCrypto } from "../features/crypto/cryptoSlice";
+import { removeCrypto } from "./cryptoSlice";
+import SocialLinkBar from "./SocialLinks/SocialLinkBar";
+import PositionData from "./Position/PositionData";
 
 const Wrapper = styled.div`
   width: 600px;
@@ -30,9 +32,10 @@ const CryptoIcon = styled.img`
 `;
 
 const CryptoName = styled.h1`
+  font-size: 20px;
   position: absolute;
   left: 70px;
-  top: 10px;
+  top: 5px;
   font-weight: 600;
 `;
 
@@ -47,6 +50,11 @@ const CloseButton = styled.button`
   font-size: 1em;
   color: gray;
   outline: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+  ${Wrapper}:hover & {
+    opacity: 100;
+  }
 `;
 
 function CryptoCard(props) {
@@ -55,18 +63,26 @@ function CryptoCard(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    let ignore = false;
     window.setTimeout(function () {
       const URL = `https://api.coingecko.com/api/v3/coins/${props.cryptoID}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`;
       axios
         .get(URL)
         .then((res) => {
-          setCrypto(res.data);
-          setLoading(false);
+          if (!ignore) {
+            setCrypto(res.data);
+            setLoading(false);
+          }
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     }, 10000);
+    //ignore API call on component unmount
+    return function cleanUp() {
+      ignore = true;
+    };
   }, [crypto, props.cryptoID]);
 
   return (
@@ -80,12 +96,13 @@ function CryptoCard(props) {
         <div>
           <CryptoIcon alt="crypto icon" src={crypto.image.small}></CryptoIcon>
           <CryptoName>
-            {formatName(crypto.name, crypto.symbol).length < 14
-              ? formatName(crypto.name, crypto.symbol)
-              : formatLongName(crypto.name, crypto.symbol)}
+            {crypto.name}
+            <br />({crypto.symbol.toUpperCase()})
           </CryptoName>
-          <PriceData data={crypto.market_data}></PriceData>
-          <MarketData data={crypto.market_data}></MarketData>
+          <PriceData crypto={crypto.market_data}></PriceData>
+          <MarketData crypto={crypto.market_data}></MarketData>
+          <PositionData crypto={crypto}></PositionData>
+          <SocialLinkBar data={crypto.links}></SocialLinkBar>
         </div>
       )}
     </Wrapper>

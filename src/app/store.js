@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cryptoReducer from "../features/crypto/cryptoSlice";
+import holdingsReducer from "../features/holdings/holdingsSlice";
 
 export default configureStore({
   reducer: {
-    crypto: cryptoReducer,
+    holdings: holdingsReducer,
   },
 });

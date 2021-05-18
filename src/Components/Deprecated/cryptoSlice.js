@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const cryptoSlice = createSlice({
   name: "crypto",
-  initialState: ["bitcoin"],
+  initialState: [{ name: "bitcoin" }, { name: "ethereum" }, { name: "lgcy" }],
   reducers: {
     addCrypto: (state, action) => {
       state.push(action.payload);
@@ -10,11 +10,14 @@ export const cryptoSlice = createSlice({
     removeCrypto: (state, action) => {
       return state.filter((id) => id !== action.payload);
     },
+    setCrypto: (state, action) => {
+      return action.payload;
+    },
   },
   devTools: true,
 });
 
 export const selectCryptos = (state) => state.crypto;
-export const { addCrypto, removeCrypto } = cryptoSlice.actions;
+export const { addCrypto, removeCrypto, setCrypto } = cryptoSlice.actions;
 
 export default cryptoSlice.reducer;

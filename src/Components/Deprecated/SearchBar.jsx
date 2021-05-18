@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { addCrypto } from "../features/crypto/cryptoSlice";
 
 const SearchBox = styled.input`
-  width: 300px;
+  width: 290px;
   height: 30px;
   border-radius: 4px;
   border: none;
   outline: none;
+  padding-left: 10px;
+  &:focus::placeholder {
+    color: transparent;
+  }
 `;
 
 const SearchResult = styled.button`
@@ -19,6 +21,8 @@ const SearchResult = styled.button`
   background-color: transparent;
   cursor: pointer;
   padding: 5px 0 5px 10px;
+  width: 100%;
+  text-align: left;
 `;
 
 const CloseButton = styled.button`
@@ -35,15 +39,17 @@ const CloseButton = styled.button`
 `;
 
 const Wrapper = styled.div`
-  position: absolute;
-  top: 30px;
-  right: 100px;
+  text-align: center;
   z-index: 2;
   overflow-y: hidden;
-  width: 302px;
+  width: 250px;
+  margin: 20px auto;
 `;
 
 const ResultsContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  z-index: 10;
   width: 300px;
   max-height: 300px;
   margin-top: 5px;
@@ -68,14 +74,12 @@ const ResultsContainer = styled.div`
     background-color: #555;
   }
 `;
-function SearchBar() {
+function SearchBar({ setCryptoName }) {
   const [input, setInput] = useState("");
   const [isFocused, setFocus] = useState(false);
   const [results, setResults] = useState([]);
   const [cryptoList, setCryptoList] = useState([]);
   let inputTimeout = undefined;
-
-  const dispatch = useDispatch();
 
   function clearInput() {
     setInput("");
@@ -105,22 +109,23 @@ function SearchBar() {
     setFocus(true);
     const value = event.target.value;
     setInput(value);
-    // if (inputTimeout) {
-    //   clearTimeout(inputTimeout);
-    //   inputTimeout = undefined;
-    // }
-    // inputTimeout = setTimeout(() => {
-    // setResults(
-    //   cryptoList.filter((crypto) => {
-    //     return crypto.name.toLowerCase().includes(input.toLowerCase());
-    //   })
-    // );
-    // }, 500);
+    if (inputTimeout) {
+      clearTimeout(inputTimeout);
+      inputTimeout = undefined;
+    }
+    inputTimeout = setTimeout(() => {
+      setResults(
+        cryptoList.filter((crypto) => {
+          return crypto.name.toLowerCase().includes(input.toLowerCase());
+        })
+      );
+    }, 500);
   }
 
-  function handleClick(e) {
-    dispatch(addCrypto(e.target.value));
+  function handleClick(name, id) {
+    setCryptoName(name, id);
     setFocus(false);
+    setInput("");
   }
 
   return (
@@ -128,7 +133,7 @@ function SearchBar() {
       <SearchBox
         onFocus={() => setFocus(true)}
         type="text"
-        placeholder="  &#128269; Search"
+        placeholder="&#128269; Search"
         value={input}
         onChange={onInputChange}
       />
@@ -143,7 +148,13 @@ function SearchBar() {
       >
         {results.map((item) => {
           return (
-            <SearchResult onClick={handleClick} key={item.id} value={item.id}>
+            <SearchResult
+              onClick={() => {
+                handleClick(item.name, item.id);
+              }}
+              key={item.id}
+              value={item.id}
+            >
               {item.name}
             </SearchResult>
           );
