@@ -10,14 +10,14 @@ export const Container = styled.div`
 
 export const Header = styled.h2`
   color: #989da8;
-  font-size: 1.6em;
+  font-size: 26px;
 `;
 
 export const Section = styled.div`
+  font-size: 26px;
   display: inline-block;
   padding: 0 3%;
-  ${"" /* flex: 1; */}
-  text-align: ${(props) => (props.centered ? "center" : "left")}
+  text-align: ${(props) => (props.centered ? "center" : "left")};
 `;
 
 export const MidSection = styled(Section)`
@@ -25,19 +25,24 @@ export const MidSection = styled(Section)`
   border-right: 1px solid gray;
   display: flex;
   justify-content: space-around;
-  flex: 3;
+  flex: 1;
 `;
 
 export const DollarValue = styled.p`
   color: white;
-  font-size: 2.2em;
+  font-size: 30px;
   font-weight: bold;
   text-align: center;
 `;
 
 export const DeltaValue = styled.p`
-  font-size: 1.6em;
   color: var(--light-green);
   font-weight: 600;
   padding-top: 10px;
+`;
+
+export const ChangeWrapper = styled.div`
+  font-size: 2.2rem;
+  bottom: -7px;
+  white-space: nowrap;
 `;

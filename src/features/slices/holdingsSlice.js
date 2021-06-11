@@ -6,40 +6,56 @@ export const holdingsSlice = createSlice({
     {
       id: "lgcy-network",
       name: "LGCY Network",
-      amount: 11600000,
+      symbol: "LGCY",
+      quantity: 11600000,
       totalCost: 2300,
     },
     {
       id: "fsw-token",
       name: "Falconswap",
-      amount: 20000,
+      symbol: "FSW",
+      quantity: 20000,
       totalCost: 2400,
     },
     {
       id: "zoracles",
       name: "Zoracles",
-      amount: 7.89,
+      symbol: "ZORA",
+      quantity: Number(7.89),
       totalCost: 1008,
     },
     {
       id: "unimex-network",
       name: "UniMex Network",
-      amount: 212,
+      symbol: "UMEX",
+      quantity: 212,
       totalCost: 155,
     },
     {
       id: "trendering",
       name: "Trendering",
-      amount: 200,
+      symbol: "TRND",
+      quantity: 200,
       totalCost: 810,
     },
   ],
   reducers: {
     addToHoldings: (state, action) => {
-      state.push(action.payload);
+      let previousState = state.find(
+        (holding) => holding.id === action.payload.id
+      );
+
+      if (previousState) {
+        previousState.quantity += action.payload.quantity;
+      } else {
+        state.push(action.payload);
+      }
     },
     removeFromHoldings: (state, action) => {
-      return state.filter((id) => id !== action.payload);
+      let previousState = state.find(
+        (holding) => holding.id === action.payload.id
+      );
+      previousState.quantity -= action.payload.quantity;
     },
     setHoldings: (state, action) => {
       return action.payload;

@@ -17,14 +17,22 @@ const formatMoney = (money) => {
   });
 };
 
+export const formatNumber = (number) => {
+  return number.toLocaleString("en-us", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+};
+
 const setMinFractionDigits = (num) => {
+  if (num > 100000) return 0;
   if (num < 1) return 5;
-  if (num < 1000) return 2;
-  return 0;
+  return 2;
 };
 
 const setMaxFractionDigits = (num) => {
-  if (num > 1000) return 0;
+  if (num > 100000) return 0;
+  if (num < 0.01) return 8;
 };
 
 const formatPercent = (percentage) => {
