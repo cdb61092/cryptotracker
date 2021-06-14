@@ -63,15 +63,6 @@ export const transactionsSlice = createSlice({
     addTransaction: (state, action) => {
       state.push(action.payload);
     },
-    // removeFromHoldings: (state, action) => {
-    //   return state.filter((id) => id !== action.payload);
-    // },
-    // setHoldings: (state, action) => {
-    //   return action.payload;
-    // },
-    // updateHolding: (state, action) => {
-    //   return (state = action.payload);
-    // },
   },
   devTools: true,
 });

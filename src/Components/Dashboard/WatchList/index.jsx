@@ -1,31 +1,17 @@
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import AddToWatchListForm from "./AddToWatchListForm";
-import HomeSectionTitle from "../../shared/components/HomeSectionTitle";
-
+import HomeSectionTitle from "../../../shared/components/HomeSectionTitle";
+import useWatchListIds from "../../../shared/hooks/useWatchListIds";
 import Row from "./Row";
-import * as S from "../../shared/Styles";
-import useFetchWatchList from "../../shared/hooks/useFetchWatchList";
-import CircleAddButton from "../../shared/components/CircleAddButton";
+import * as S from "../../../shared/Styles";
+import useFetchWatchList from "../../../shared/hooks/useFetchWatchList";
+import CircleAddButton from "../../../shared/components/CircleAddButton";
 
 const WatchList = () => {
-  console.log("watchlist render");
   const [showAddToWatchListForm, setShowAddToWatchListForm] = useState(false);
-  const [ids, setIds] = useState(["bitcoin", "ethereum"]);
+  const [ids, addToWatchList, removeFromWatchList] = useWatchListIds();
   const { isLoading, isError, data, error } = useFetchWatchList(ids);
-
-  const addToWatchList = (id) => {
-    setIds([...ids, id]);
-    setShowAddToWatchListForm(false);
-  };
-
-  const removeFromWatchList = (coinID) => {
-    setIds((prevState) =>
-      prevState.filter((id) => {
-        return coinID !== id;
-      })
-    );
-  };
 
   if (isLoading) return <span>loading...</span>;
 
@@ -55,10 +41,10 @@ const WatchList = () => {
       <S.Table>
         <thead>
           <tr>
-            <S.Th textAlign="center" width="30px">
+            <S.Th textAlign="left" width="30px">
               #
             </S.Th>
-            <S.Th textAlign="center">Coin</S.Th>
+            <S.Th textAlign="left">Coin</S.Th>
             <S.Th textAlign="right">Price</S.Th>
             <S.Th textAlign="right">Market Cap</S.Th>
             <S.Th textAlign="center">1h</S.Th>
@@ -76,7 +62,7 @@ const WatchList = () => {
               <Row
                 data={data.find((coin) => coin.id === id)}
                 key={id}
-                removeFromWatchList={() => removeFromWatchList(id)}
+                removeFromWatchList={removeFromWatchList}
               ></Row>
             );
           })}

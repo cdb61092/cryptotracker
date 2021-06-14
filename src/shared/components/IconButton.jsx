@@ -13,6 +13,7 @@ const Button = styled.div`
   border: none;
   outline: none;
   background: none;
+  display: inline-block;
 
   &:hover {
     color: ${(props) => props.hoverColor};

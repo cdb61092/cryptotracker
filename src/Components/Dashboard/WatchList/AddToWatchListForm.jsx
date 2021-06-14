@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Modal from "../../shared/components/Modal";
-import SearchGeckoCoins from "../SearchGeckoCoins";
-import * as S from "../../shared/Styles";
+import Modal from "../../../shared/components/Modal";
+import SearchGeckoCoins from "../../SearchGeckoCoins";
+import * as S from "../../../shared/Styles";
 
 const AddToWatchListForm = ({ closeForm, addToWatchList }) => {
   const [coinInfo, setCoinInfo] = useState({ id: "", name: "", symbol: "" });

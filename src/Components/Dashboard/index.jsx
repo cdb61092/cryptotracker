@@ -1,10 +1,10 @@
 import { QueryClientProvider, QueryClient } from "react-query";
 import * as S from "./Styles";
-import PortfolioSummaryBar from "../PortfolioSummaryBar";
+import PortfolioSummaryBar from "./PortfolioSummaryBar";
 import Holdings from "./Holdings";
-import WatchList from "../WatchList";
+import WatchList from "./WatchList";
 import Graph from "../../shared/components/Graph";
-import Transactions from "../Transactions";
+import Transactions from "./Transactions";
 
 const queryClient = new QueryClient({
   defaultOptions: {

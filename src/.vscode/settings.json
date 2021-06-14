@@ -3,5 +3,6 @@
     ".vscode": true,
     "**/app": true,
     "**/Deprecated": true
-  }
+  },
+  "workbench.tree.indent": 16
 }

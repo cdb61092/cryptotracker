@@ -29,7 +29,7 @@ export const Container = styled.div`
   height: 100%;
   left: 0;
   top: 0;
-  position: absolute;
+  position: fixed;
   background-color: #11151e;
   box-sizing: border-box;
   padding-top: 25px;

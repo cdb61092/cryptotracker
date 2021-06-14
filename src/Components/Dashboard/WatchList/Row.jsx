@@ -1,14 +1,15 @@
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import PercentageChange from "../../shared/components/PercentageChange";
-import * as S from "../../shared/Styles";
-import { formatMoney } from "../../shared/utils/formatters";
+import PercentageChange from "../../../shared/components/PercentageChange";
+import * as S from "../../../shared/Styles";
+import { formatMoney } from "../../../shared/utils/formatters";
 import { CgCloseO } from "react-icons/cg";
+import useWatchListIds from "../../../shared/hooks/useWatchListIds";
 
 const Row = ({ data, removeFromWatchList }) => {
   if (data) {
     return (
       <S.Tr>
-        <S.Td textAlign="center">{data.market_cap_rank}</S.Td>
+        <S.Td textAlign="left">{data.market_cap_rank}</S.Td>
         <S.Td textAlign="left">
           <S.Icon src={data.image} />
           {data.name}
@@ -45,7 +46,7 @@ const Row = ({ data, removeFromWatchList }) => {
           </Sparklines>
         </S.Td>
         <S.Td textAlign="right">
-          <S.UnstyledButton onClick={() => removeFromWatchList()}>
+          <S.UnstyledButton onClick={() => removeFromWatchList(data.id)}>
             <S.IconWrapper>
               <CgCloseO size="20px" />
             </S.IconWrapper>

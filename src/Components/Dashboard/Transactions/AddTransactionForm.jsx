@@ -1,7 +1,7 @@
-import Modal from "../../shared/components/Modal";
+import Modal from "../../../shared/components/Modal";
 import * as S from "./Styles";
 import { useDispatch } from "react-redux";
-import TransactionSection from "../../shared/components/TransactionSection";
+import TransactionSection from "../../../shared/components/TransactionSection";
 
 const AddTransactionForm = ({ closeForm }) => {
   return (

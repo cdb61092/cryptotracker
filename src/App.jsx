@@ -3,33 +3,55 @@ import styled from "styled-components";
 import Sidebar from "./Components/Sidebar";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
+import Rankings from "./Components/Rankings";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const Main = styled.div`
-  overflow: hidden;
   margin-left: 70px;
-  background-color: #1e2434;
   padding: 15px;
-  height: 100%;
-`;
-const AppContainer = styled.div`
   height: 100vh;
 `;
+const AppContainer = styled.div`
+  min-height: 100vh;
+  background-color: var(--light-bg);
+`;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      notifyOnChangeProps: "tracked",
+    },
+  },
+});
 
 function App() {
+  (async () => {
+    await queryClient.prefetchQuery("rankings", () =>
+      fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d"
+      ).then((res) => res.json())
+    );
+  })();
   return (
     <AppContainer>
-      <Router>
-        <Sidebar />
-        <Main>
-          <Switch>
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
-            <Route path="/watchlist"></Route>
-            <Route path="/rankings"></Route>
-          </Switch>
-        </Main>
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Sidebar />
+          <Main>
+            <Switch>
+              <Route exact path="/">
+                <Dashboard />
+              </Route>
+              <Route path="/rankings">
+                <Rankings />
+              </Route>
+              <Route path="/watchlist"></Route>
+            </Switch>
+          </Main>
+        </Router>
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
     </AppContainer>
   );
 }

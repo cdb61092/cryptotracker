@@ -5,7 +5,6 @@ export const HomeGridContainer = styled.div`
   padding: 10px;
   grid-area: ${(props) => props.gridArea};
   height: 100%;
-  display: block;
   overflow: scroll;
   ::-webkit-scrollbar {
     display: none;
@@ -23,7 +22,6 @@ export const HomeSectionTitle = styled.div`
 
 export const Table = styled.table`
   width: 100%;
-  overflow-y: auto;
 
   & th {
     font-size: 1.5rem;
@@ -52,12 +50,12 @@ const height = css`
 
 export const Th = styled.th`
   ${width}
-  ${textAlign}
+  text-align: ${(props) => props.textAlign || "right"};
 `;
 
 export const Td = styled.td`
   ${width}
-  ${textAlign}
+  text-align: ${(props) => props.textAlign || "right"};
   color: ${(props) => props.color};
 `;
 export const Tr = styled.tr`
