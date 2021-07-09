@@ -1,8 +1,15 @@
 import { useQuery } from "react-query";
-
-const useFetchWatchList = (ids) => {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectWatchList,
+  addToWatchList as add,
+  removeFromWatchList as remove,
+} from "../../features/slices/watchListSlice";
+const useFetchWatchList = () => {
+  const ids = useSelector(selectWatchList);
+  const dispatch = useDispatch();
   const API_PARAMS = ids.join();
-  const { isLoading, isError, data, error, refetch } = useQuery(
+  const { isLoading, isError, data } = useQuery(
     ["watchList", API_PARAMS],
     () =>
       fetch(
@@ -13,7 +20,16 @@ const useFetchWatchList = (ids) => {
       refetchOnWindowFocus: false,
     }
   );
-  return { isLoading, isError, data, error, refetch };
+
+  const addToWatchList = (coinId) => {
+    dispatch(add(coinId));
+  };
+
+  const removeFromWatchList = (coinId) => {
+    dispatch(remove(coinId));
+  };
+
+  return { isLoading, isError, data, addToWatchList, removeFromWatchList, ids };
 };
 
 export default useFetchWatchList;

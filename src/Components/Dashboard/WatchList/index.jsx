@@ -2,20 +2,17 @@ import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import AddToWatchListForm from "./AddToWatchListForm";
 import HomeSectionTitle from "../../../shared/components/HomeSectionTitle";
-import useWatchListIds from "../../../shared/hooks/useWatchListIds";
 import Row from "./Row";
 import * as S from "../../../shared/Styles";
 import useFetchWatchList from "../../../shared/hooks/useFetchWatchList";
 import CircleAddButton from "../../../shared/components/CircleAddButton";
+import LoadingSpinner from "../../../shared/components/LoadingSpinner";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const WatchList = () => {
   const [showAddToWatchListForm, setShowAddToWatchListForm] = useState(false);
-  const [ids, addToWatchList, removeFromWatchList] = useWatchListIds();
-  const { isLoading, isError, data, error } = useFetchWatchList(ids);
-
-  if (isLoading) return <span>loading...</span>;
-
-  if (isError) return <span>Error: {error.message}</span>;
+  const { data, addToWatchList, removeFromWatchList, ids } =
+    useFetchWatchList();
 
   return (
     <S.HomeGridContainer gridArea="botleft">
@@ -27,7 +24,7 @@ const WatchList = () => {
       )}
       <HomeSectionTitle
         icon={<AiFillStar style={{ marginRight: "5px" }} />}
-        title="Watch List"
+        title="Watchlist"
       >
         <CircleAddButton
           size="30px"
@@ -57,15 +54,16 @@ const WatchList = () => {
           </tr>
         </thead>
         <tbody>
-          {ids.map((id) => {
-            return (
-              <Row
-                data={data.find((coin) => coin.id === id)}
-                key={id}
-                removeFromWatchList={removeFromWatchList}
-              ></Row>
-            );
-          })}
+          {data &&
+            ids.map((id) => {
+              return (
+                <Row
+                  data={data.find((coin) => coin.id === id)}
+                  key={id}
+                  removeFromWatchList={removeFromWatchList}
+                />
+              );
+            })}
         </tbody>
       </S.Table>
     </S.HomeGridContainer>

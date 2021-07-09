@@ -13,17 +13,13 @@ import { BUY } from "../../../shared/constants";
 const Holdings = () => {
   const holdings = useSelector(selectHoldings);
   const [showAddTransactionForm, setShowAddTransactionForm] = useState(false);
-  const { isLoading, isError, data } = useFetchHoldingsData();
+  const { data } = useFetchHoldingsData();
   const [transactionType, setTransactionType] = useState();
 
   const onShowForm = () => {
     setTransactionType(BUY);
     setShowAddTransactionForm(true);
   };
-
-  if (isLoading) return null;
-
-  if (isError) return null;
 
   return (
     <S.HomeGridContainer gridArea="midleft">
@@ -62,17 +58,18 @@ const Holdings = () => {
           </tr>
         </thead>
         <tbody style={{ color: "white" }}>
-          {holdings.map((holding) => {
-            return (
-              data.find((coin) => coin.id === holding.id) !== undefined && (
-                <HoldingsRow
-                  key={holding.id}
-                  holdingData={holding}
-                  priceData={data.find((coin) => coin.id === holding.id)}
-                ></HoldingsRow>
-              )
-            );
-          })}
+          {data &&
+            holdings.map((holding) => {
+              return (
+                data.find((coin) => coin.id === holding.id) !== undefined && (
+                  <HoldingsRow
+                    key={holding.id}
+                    holdingData={holding}
+                    priceData={data.find((coin) => coin.id === holding.id)}
+                  ></HoldingsRow>
+                )
+              );
+            })}
         </tbody>
       </S.Table>
     </S.HomeGridContainer>

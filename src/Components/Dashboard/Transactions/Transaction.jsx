@@ -13,7 +13,7 @@ const Transaction = ({ transactionData }) => {
       <S.Td textAlign="right">{formatMoney(totalCost / quantity)}</S.Td>
       <S.Td textAlign="right">{totalCost}</S.Td>
       <S.Td textAlign="right" width="230px">
-        {date.toLocaleString()}
+        {new Date(date).toLocaleString()}
       </S.Td>
     </S.Tr>
   );

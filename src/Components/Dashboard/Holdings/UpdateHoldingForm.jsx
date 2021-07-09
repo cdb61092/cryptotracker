@@ -50,7 +50,7 @@ const UpdateHoldingForm = ({
           quantity: Number(quantity),
           totalCost: Number(totalCost),
           type: transactionType,
-          date: new Date(),
+          date: new Date().toDateString(),
         })
       );
     }
@@ -70,7 +70,7 @@ const UpdateHoldingForm = ({
           quantity: Number(quantity),
           totalCost: Number(totalCost),
           type: transactionType,
-          date: new Date(),
+          date: new Date().toString(),
         })
       );
     }

@@ -2,20 +2,22 @@ import styled from "styled-components";
 import IconButton from "./IconButton";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-const Pagination = ({ page, setPage }) => {
+const Pagination = ({ pageNumber, setPageNumber, setLoadingNextPage }) => {
+  const nextPage = () => {
+    setLoadingNextPage(true);
+    setPageNumber((prev) => prev + 1);
+  };
+  const prevPage = () => {
+    if (pageNumber > 1) {
+      setLoadingNextPage(true);
+      setPageNumber((prev) => prev - 1);
+    }
+  };
   return (
     <Container>
-      <IconButton
-        icon={<FaAngleLeft size="30px" />}
-        onClick={() => setPage((prev) => prev - 1)}
-        top="50px"
-      />
-      <PageNumber>{page}</PageNumber>
-
-      <IconButton
-        icon={<FaAngleRight size="30px" />}
-        onClick={() => setPage((prev) => prev + 1)}
-      />
+      <IconButton icon={<FaAngleLeft size="30px" />} onClick={prevPage} />
+      <PageNumber>{pageNumber}</PageNumber>
+      <IconButton icon={<FaAngleRight size="30px" />} onClick={nextPage} />
     </Container>
   );
 };

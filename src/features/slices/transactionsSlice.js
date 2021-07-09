@@ -11,7 +11,7 @@ export const transactionsSlice = createSlice({
       quantity: 11600000,
       totalCost: 2300,
       type: BUY,
-      date: new Date(),
+      date: new Date().toString(),
     },
     {
       id: "lgcy-network",
@@ -20,7 +20,7 @@ export const transactionsSlice = createSlice({
       quantity: 500,
       totalCost: 500,
       type: BUY,
-      date: new Date(),
+      date: new Date().toString(),
     },
     {
       id: "fsw-token",
@@ -29,7 +29,7 @@ export const transactionsSlice = createSlice({
       quantity: 20000,
       totalCost: 2400,
       type: BUY,
-      date: new Date(),
+      date: new Date().toString(),
     },
     {
       id: "zoracles",
@@ -38,7 +38,7 @@ export const transactionsSlice = createSlice({
       quantity: 7.89,
       totalCost: 1008,
       type: BUY,
-      date: new Date(),
+      date: new Date().toString(),
     },
     {
       id: "unimex-network",
@@ -47,7 +47,7 @@ export const transactionsSlice = createSlice({
       quantity: 212,
       totalCost: 155,
       type: SELL,
-      date: new Date(),
+      date: new Date().toString(),
     },
     {
       id: "trendering",
@@ -56,18 +56,21 @@ export const transactionsSlice = createSlice({
       quantity: 200,
       totalCost: 810,
       type: BUY,
-      date: new Date(),
+      date: new Date().toString(),
     },
   ],
   reducers: {
     addTransaction: (state, action) => {
       state.push(action.payload);
     },
+    setTransactions: (state, action) => {
+      return action.payload;
+    },
   },
   devTools: true,
 });
 
 export const selectTransactions = (state) => state.transactions;
-export const { addTransaction } = transactionsSlice.actions;
+export const { addTransaction, setTransactions } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

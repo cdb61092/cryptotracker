@@ -6,7 +6,9 @@ import Dashboard from "./Components/Dashboard";
 import Rankings from "./Components/Rankings";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-
+import Watchlist from "./Components/Watchlist";
+import usePersistReduxState from "./shared/hooks/usePersistReduxState";
+import { useEffect } from "react";
 const Main = styled.div`
   margin-left: 70px;
   padding: 15px;
@@ -26,6 +28,9 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  console.log("App rerender");
+  usePersistReduxState();
+
   (async () => {
     await queryClient.prefetchQuery("rankings", () =>
       fetch(
@@ -46,7 +51,9 @@ function App() {
               <Route path="/rankings">
                 <Rankings />
               </Route>
-              <Route path="/watchlist"></Route>
+              <Route path="/watchlist">
+                <Watchlist />
+              </Route>
             </Switch>
           </Main>
         </Router>

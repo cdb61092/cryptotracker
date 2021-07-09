@@ -20,6 +20,13 @@ export const HomeSectionTitle = styled.div`
   align-items: center;
 `;
 
+export const Heading = styled.h1`
+  text-align: center;
+  color: white;
+  font-size: 4rem;
+  margin-bottom: 50px;
+`;
+
 export const Table = styled.table`
   width: 100%;
 

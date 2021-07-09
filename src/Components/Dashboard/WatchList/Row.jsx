@@ -3,7 +3,6 @@ import PercentageChange from "../../../shared/components/PercentageChange";
 import * as S from "../../../shared/Styles";
 import { formatMoney } from "../../../shared/utils/formatters";
 import { CgCloseO } from "react-icons/cg";
-import useWatchListIds from "../../../shared/hooks/useWatchListIds";
 
 const Row = ({ data, removeFromWatchList }) => {
   if (data) {

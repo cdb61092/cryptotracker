@@ -5,6 +5,7 @@ import Holdings from "./Holdings";
 import WatchList from "./WatchList";
 import Graph from "../../shared/components/Graph";
 import Transactions from "./Transactions";
+import PortfolioWeight from "./PortfolioWeight";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +30,7 @@ const Dashboard = () => {
         <PortfolioSummaryBar />
         <Holdings />
         <WatchList />
-        <Graph />
+        <PortfolioWeight />
         <Transactions />
       </QueryClientProvider>
     </S.Dashboard>

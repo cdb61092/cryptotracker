@@ -1,8 +1,5 @@
-import { useState, useReducer, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { HiSwitchHorizontal } from "react-icons/hi";
-import CircleAddButton from "../../../shared/components/CircleAddButton";
-import TransactionSection from "../../../shared/components/TransactionSection";
 import styled from "styled-components";
 import { addToHoldings } from "../../../features/slices/holdingsSlice";
 import { PRICE_PER, TOTAL_COST } from "../../../shared/hooks/useChangePayType";
@@ -14,12 +11,7 @@ import useTransactionForm from "../../../shared/hooks/useTransactionForm";
 import { GeckoSearchSubmitButton } from "./Styles";
 import { BUY, SELL } from "../../../shared/constants";
 
-const AddTransactionForm = ({
-  closeForm,
-  transactionType,
-  formTitle,
-  disableSearch,
-}) => {
+const AddTransactionForm = ({ closeForm, transactionType, formTitle }) => {
   const [payType, togglePayType] = useChangePayType();
   const { id, name, symbol, quantity, totalCost, pricePerCoin, dispatch } =
     useTransactionForm();
@@ -48,11 +40,8 @@ const AddTransactionForm = ({
         })
       );
     }
-
-    // if (transactionType === "sell") {
-
-    // }
   };
+
   return (
     <Modal>
       <S.SearchPromptText>{formTitle}</S.SearchPromptText>

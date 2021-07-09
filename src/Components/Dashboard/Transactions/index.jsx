@@ -30,8 +30,10 @@ const Transactions = () => {
         </thead>
 
         <tbody>
-          {[...transactions].reverse().map((transaction) => {
-            return <Transaction transactionData={transaction}></Transaction>;
+          {[...transactions].reverse().map((transaction, i) => {
+            return (
+              <Transaction key={i} transactionData={transaction}></Transaction>
+            );
           })}
         </tbody>
       </S.Table>

@@ -21,8 +21,4 @@ export const Table = styled.table`
   }
 `;
 
-export const SparklinesContainer = styled.div`
-  width: 250px;
-`;
-
 export const Row = styled.tr``;

@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-
-import styled from "styled-components";
-import { useEffect } from "react";
 import PercentageChange from "../../../shared/components/PercentageChange";
 import { formatMoney, formatNumber } from "../../../shared/utils/formatters";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -9,9 +6,9 @@ import { Icon } from "./Styles";
 import IconButton from "../../../shared/components/IconButton";
 import * as S from "../../../shared/Styles";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import AddTransactionForm from "./AddTransactionForm";
 import UpdateHoldingForm from "./UpdateHoldingForm";
 import { BUY, SELL } from "../../../shared/constants";
+import { DollarValue } from "../PortfolioSummaryBar/Styles";
 
 function HoldingsRow({ holdingData, priceData }) {
   const {
@@ -58,7 +55,7 @@ function HoldingsRow({ holdingData, priceData }) {
         {symbol.toUpperCase()}
       </S.Td>
       <S.Td textAlign="right">{formatNumber(quantity)}</S.Td>
-      <S.Td textAlign="right">{current_price}</S.Td>
+      <S.Td textAlign="right">{formatMoney(current_price)}</S.Td>
       <S.Td textAlign="right">{formatMoney(quantity * current_price)}</S.Td>
       <S.Td textAlign="center">
         <PercentageChange percent={price_change_percentage_24h} />
@@ -80,8 +77,8 @@ function HoldingsRow({ holdingData, priceData }) {
               priceData.sparkline_in_7d.price[
                 priceData.sparkline_in_7d.length - 1
               ]
-                ? "green"
-                : "red"
+                ? "var(--light-green)"
+                : "var(--light-red"
             }
           ></SparklinesLine>
         </Sparklines>
