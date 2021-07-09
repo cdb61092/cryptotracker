@@ -1,4 +1,4 @@
-#CryptoTracker
+# CryptoTracker
 
 CryptoTracker is a cryptocurrency portfolio tracker tool that provides real time market data insights into your cryptocurrency investments.
 On the Dashboard you can see your overall portfolio performance, a chart showing portfolio weight, a watchlist of cryptos, and your transactions.
